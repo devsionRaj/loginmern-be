@@ -7,17 +7,35 @@
 var app = require('../app');
 var debug = require('debug')('loginmern-be:server');
 var http = require('http');
+const DBService = require('../services/db.service');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.APP_PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
+
+//Setting up the MongoDB connection
+(async function () {
+  try {
+    console.log('Connecting to DB');
+    const { value, error } = await DBService.connect();
+    // if (error) {
+    //   console.log('MongoDB connection error:', error)
+    // }
+    // console.log('MongoDB connected')
+  } catch (error) {
+    return { error: error }
+  }
+
+}())
+
+
 
 var server = http.createServer(app);
 
@@ -86,6 +104,6 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log(`Listening on port ${bind}`)
+  console.log(`Listening on ${bind}`)
   debug('Listening on ' + bind);
 }
