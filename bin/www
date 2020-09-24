@@ -24,15 +24,10 @@ app.set('port', port);
 (async function () {
   try {
     console.log('Connecting to DB');
-    const { value, error } = await DBService.connect();
-    // if (error) {
-    //   console.log('MongoDB connection error:', error)
-    // }
-    // console.log('MongoDB connected')
+    await DBService.connect();
   } catch (error) {
-    return { error: error }
+    console.log(`MongoDB connection error: ${error}`)
   }
-
 }())
 
 
