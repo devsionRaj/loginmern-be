@@ -39,15 +39,13 @@ const userSchema = new Schema({
     }
 }, { timestamps: true })
 
-userSchema.virtual('password')
-    .set(function (password) {
-        this._password = password;
-        this.salt = uuidv1();
-        this.encryPassword = this.securePassword(password)
-    })
-    .get(function () {
-        return this._password
-    })
+userSchema.virtual('password').set(function (password) {
+    this._password = password;
+    this.salt = uuidv1();
+    this.encryPassword = this.securePassword(password)
+}).get(function () {
+    return this._password
+})
 
 
 userSchema.methods = {
